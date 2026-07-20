@@ -1,9 +1,10 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { TrendingUp, TrendingDown, AlertCircle, CheckCircle } from 'lucide-react';
+import { TrendingUp, TrendingDown, AlertCircle, CheckCircle, Loader } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { usePairsData } from '@/hooks/useMarketData';
 
 interface PairSignal {
   id: string;
@@ -71,8 +72,16 @@ const mockPairs: PairSignal[] = [
 ];
 
 export default function PairsTable() {
+  const { pairs: apiPairs, isLoading, error } = usePairsData();
   const [pairs, setPairs] = useState<PairSignal[]>(mockPairs);
   const [expandedId, setExpandedId] = useState<string | null>(null);
+
+  // Use API data if available, fallback to mock data
+  useEffect(() => {
+    if (apiPairs && apiPairs.length > 0) {
+      setPairs(apiPairs);
+    }
+  }, [apiPairs]);
 
   const getSignalColor = (signal: string) => {
     switch (signal) {
@@ -98,6 +107,21 @@ export default function PairsTable() {
 
   return (
     <div className="space-y-4">
+      {isLoading && (
+        <div className="flex items-center justify-center py-8 text-muted-foreground">
+          <Loader className="h-5 w-5 animate-spin mr-2" />
+          <span>Loading market data...</span>
+        </div>
+      )}
+
+      {error && (
+        <Card className="border border-[#f59e0b]/20 bg-[#f59e0b]/5 p-4">
+          <p className="text-sm text-[#f59e0b]">
+            Using cached data. Real-time API unavailable.
+          </p>
+        </Card>
+      )}
+
       <div className="grid grid-cols-1 gap-4">
         {pairs.map((pair) => (
           <Card

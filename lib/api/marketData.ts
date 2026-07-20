@@ -325,3 +325,100 @@ export async function getMacroCalendar(): Promise<Array<{
     },
   ];
 }
+
+/**
+ * Fetch pairs trading data with signals
+ */
+export async function getPairsData() {
+  // This would fetch real data from NIFTY 50 stocks
+  // For now, return structured mock data that the frontend expects
+  return {
+    data: [
+      {
+        id: '1',
+        stock1: 'INFY',
+        stock2: 'WIPRO',
+        correlation: 0.82,
+        cointegration: 0.78,
+        currentSpread: 45.3,
+        zScore: 2.14,
+        signal: 'SELL',
+        confidence: 82,
+        reason: 'INFY overvalued vs WIPRO. Strong cointegration (78%) suggests reversion. Z-score 2.14 indicates extreme deviation.',
+        counterArgument: 'Risk: Tech sector momentum could persist, earnings surprise from INFY, or correlation breakdown due to sector rotation.',
+        historicalWinRate: 0.68,
+        riskScore: 28,
+      },
+      {
+        id: '2',
+        stock1: 'RELIANCE',
+        stock2: 'ONGC',
+        correlation: 0.71,
+        cointegration: 0.75,
+        currentSpread: -12.5,
+        zScore: -1.92,
+        signal: 'BUY',
+        confidence: 76,
+        reason: 'RELIANCE undervalued vs ONGC. Strong cointegration indicates mean reversion. Negative Z-score signals entry opportunity.',
+        counterArgument: 'Risk: Oil price decline could pressure both, geopolitical risks, or energy sector headwinds.',
+        historicalWinRate: 0.64,
+        riskScore: 35,
+      },
+      {
+        id: '3',
+        stock1: 'HDFC',
+        stock2: 'ICICIBANK',
+        correlation: 0.68,
+        cointegration: 0.72,
+        currentSpread: 22.1,
+        zScore: 1.45,
+        signal: 'HOLD',
+        confidence: 52,
+        reason: 'Moderate divergence between banking stocks. Cointegration still strong (72%) but Z-score not extreme enough for signal.',
+        counterArgument: 'Market sentiment could shift either way based on RBI policy decisions.',
+        historicalWinRate: 0.55,
+        riskScore: 42,
+      },
+    ],
+  };
+}
+
+/**
+ * Fetch market news
+ */
+export async function getMarketNews() {
+  return {
+    data: [
+      {
+        title: 'RBI Holds Interest Rate at 6.5%, Emphasizes Data-Dependent Approach',
+        source: 'Financial Express',
+        datetime: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
+      },
+      {
+        title: 'Infosys Q3 Results Beat Expectations, Raises FY24 Guidance',
+        source: 'Bloomberg',
+        datetime: new Date(Date.now() - 4 * 60 * 60 * 1000).toISOString(),
+      },
+      {
+        title: 'Oil Prices Rise on Geopolitical Tensions in Middle East',
+        source: 'Reuters',
+        datetime: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(),
+      },
+    ],
+  };
+}
+
+
+/**
+ * Fetch commodities data
+ */
+export async function getCommoditiesData() {
+  return {
+    data: [
+      { symbol: 'GOLD', price: 68500, change: 250, changePercent: 0.37 },
+      { symbol: 'SILVER', price: 85300, change: -150, changePercent: -0.18 },
+      { symbol: 'CRUDE_OIL', price: 92.5, change: 1.2, changePercent: 1.31 },
+      { symbol: 'NATURAL_GAS', price: 285, change: -5, changePercent: -1.72 },
+    ],
+  };
+}
